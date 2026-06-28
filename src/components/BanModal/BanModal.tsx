@@ -51,10 +51,10 @@ export class BanModal extends Modal<Events, BanModalProperties, any> {
             console.log(this.state.details);
 
             const obj = {
-                moderation_note: this.state.details.moderator_notes,
-                is_banned: true,
-                ban_reason: this.state.details.public_reason,
-                ban_expiration: this.state.details.ban_expiration?.toISOString(),
+            moderation_note: this.state.details.moderator_notes,
+            is_banned: true, // 👈 다시 추가됨
+            ban_reason: this.state.details.public_reason, // 👈 public_reason에서 원상복구
+            ban_expiration: this.state.details.ban_expiration?.toISOString(),
             };
 
             console.log("Banning player", player_id, obj);

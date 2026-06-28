@@ -103,16 +103,16 @@ function BanDetails({ onChange }: { onChange: (d: any) => void }): React.ReactEl
 
     return (
         <div>
-            <h3>Public reason (displayed to user)</h3>
+            <h3>{pgettext("BanModal form field label", "Public reason (displayed to user)")}</h3>
             <textarea onChange={(e) => set_public_reason(e.target.value)} value={public_reason} />
 
-            <h3>Moderator only notes (optional)</h3>
+            <h3>{_("Moderator only notes (optional)")}</h3>
             <textarea
                 onChange={(e) => set_moderator_notes(e.target.value)}
                 value={moderator_notes}
             />
 
-            <h3>Ban expiration</h3>
+            <h3>{pgettext("BanModal form field label", "Ban expiration")}</h3>
             <Datetime value={expiration} onChange={(d: any) => set_expiration(d._d)} />
         </div>
     );

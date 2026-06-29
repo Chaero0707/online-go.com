@@ -47,20 +47,15 @@ export class BanModal extends Modal<Events, BanModalProperties, any> {
 
         const ban = () => {
             const player_id = this.props.player_id;
-            console.log("Banning player", this.props.player_id);
-            console.log(this.state.details);
 
             const obj = {
-            moderation_note: this.state.details.moderator_notes,
-            is_banned: true, // 👈 다시 추가됨
-            ban_reason: this.state.details.public_reason, // 👈 public_reason에서 원상복구
-            ban_expiration: this.state.details.ban_expiration?.toISOString(),
+                moderation_note: this.state.details.moderator_notes,
+                is_banned: true,
+                ban_reason: this.state.details.public_reason,
+                ban_expiration: this.state.details.ban_expiration?.toISOString(),
             };
 
-            console.log("Banning player", player_id, obj);
-
             put("players/" + player_id + "/moderate", obj)
-                .then(() => console.log("Player banned"))
                 .catch(errorAlerter);
             this.close();
         };
@@ -106,14 +101,21 @@ function BanDetails({ onChange }: { onChange: (d: any) => void }): React.ReactEl
             <h3>{pgettext("BanModal form field label", "Public reason (displayed to user)")}</h3>
             <textarea onChange={(e) => set_public_reason(e.target.value)} value={public_reason} />
 
-            <h3>{_("Moderator only notes (optional)")}</h3>
+            <h3>{pgettext("BanModal form field label", "Moderator only notes (optional)")}</h3>
             <textarea
                 onChange={(e) => set_moderator_notes(e.target.value)}
                 value={moderator_notes}
             />
 
             <h3>{pgettext("BanModal form field label", "Ban expiration")}</h3>
-            <Datetime value={expiration} onChange={(d: any) => set_expiration(d._d)} />
+
+            <Datetime 
+                value={expiration} 
+                onChange={(d: any) => {
+                    const dateVal = (d && typeof d.isValid === 'function' && d.isValid()) ? d.toDate() : undefined;
+                    set_expiration(dateVal);
+                }} 
+            />
         </div>
     );
 }
